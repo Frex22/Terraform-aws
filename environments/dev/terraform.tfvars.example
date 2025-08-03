@@ -1,0 +1,63 @@
+# Development Environment Variables
+# Copy this file to terraform.tfvars and customize the values
+
+# Global Configuration
+project_name = "my-awesome-project"
+aws_region   = "us-west-2"
+
+# Networking Configuration
+vpc_cidr = "10.0.0.0/16"
+
+availability_zones = [
+  "us-west-2a",
+  "us-west-2b",
+  "us-west-2c"
+]
+
+public_subnet_cidrs = [
+  "10.0.101.0/24",
+  "10.0.102.0/24",
+  "10.0.103.0/24"
+]
+
+private_subnet_cidrs = [
+  "10.0.1.0/24",
+  "10.0.2.0/24",
+  "10.0.3.0/24"
+]
+
+# Security Configuration
+# Replace with your actual IP ranges
+allowed_cidr_blocks = [
+  "203.0.113.0/24",  # Your office IP range
+  "198.51.100.0/24", # Your home IP range
+  "0.0.0.0/0"        # Remove this in production!
+]
+
+# Database Configuration
+database_config = {
+  engine         = "postgres"
+  engine_version = "15.4"
+  instance_class = "db.t3.micro"
+  storage_size   = 20
+  database_name  = "myappdb"
+  username       = "dbadmin"
+  password       = "SuperSecretPassword123!"  # Use AWS Secrets Manager in production
+}
+
+# EKS Configuration
+enable_eks = false  # Set to true when you want to create EKS cluster
+
+eks_node_groups = {
+  general = {
+    instance_types = ["t3.medium"]
+    scaling_config = {
+      desired_size = 2
+      max_size     = 4
+      min_size     = 1
+    }
+    update_config = {
+      max_unavailable = 1
+    }
+  }
+}
